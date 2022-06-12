@@ -14,12 +14,17 @@ let deadline;
 const start = () => {
   deadline = Date.now() + time;
   io.emit("deadline", deadline);
+
   console.log(deadline);
 
   setTimeout(start, time);
 };
 
 start();
+
+app.get("/deadline", (req, res) => {
+  res.send(String(deadline));
+});
 
 io.on("connect", (socket) => {
   socket.emit("deadline", deadline);
